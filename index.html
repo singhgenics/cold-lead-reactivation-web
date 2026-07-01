@@ -1026,9 +1026,12 @@ body{font-family:'Inter',sans-serif;background:#060E1A;padding:0;margin:0;height
 
 /* ── Fit-to-viewport: wrap slides + scale ── */
 (function(){
-  function wrapAndScale(){
-    var slides=document.querySelectorAll('.slide:not(.slide-frame .slide)');
-    slides.forEach(function(s){
+  var W=297*96/25.4; /* 297mm in CSS px at 96dpi */
+  var H=190*96/25.4; /* 190mm in CSS px */
+
+  function setup(){
+    document.querySelectorAll('.slide').forEach(function(s){
+      if(s.parentElement&&s.parentElement.classList.contains('slide-frame'))return;
       var f=document.createElement('div');
       f.className='slide-frame';
       s.parentNode.insertBefore(f,s);
@@ -1036,22 +1039,18 @@ body{font-family:'Inter',sans-serif;background:#060E1A;padding:0;margin:0;height
     });
     scale();
   }
+
   function scale(){
-    document.querySelectorAll('.slide-frame').forEach(function(f){
-      var s=f.querySelector('.slide');
-      if(!s)return;
-      s.style.transform='none';
-      var sx=f.clientWidth/s.offsetWidth;
-      var sy=f.clientHeight/s.offsetHeight;
-      s.style.transform='scale('+Math.min(sx,sy)*0.97+')';
+    var factor=Math.min(window.innerWidth/W, window.innerHeight/H)*0.97;
+    document.querySelectorAll('.slide').forEach(function(s){
+      s.style.transform='scale('+factor+')';
+      s.style.transformOrigin='center center';
     });
   }
+
   window.addEventListener('resize',scale);
-  if(document.readyState==='loading'){
-    document.addEventListener('DOMContentLoaded',wrapAndScale);
-  } else {
-    wrapAndScale();
-  }
+  /* double rAF ensures layout is computed before we scale */
+  requestAnimationFrame(function(){requestAnimationFrame(setup);});
 })();
 </script>
 </body>
