@@ -316,7 +316,59 @@ header.scrolled{box-shadow:0 2px 12px rgba(0,0,0,0.06);}
 }
 .chip-hot{background:rgba(0,138,5,.08);color:var(--green);border:1px solid rgba(0,138,5,.25);}
 .chip-view{background:rgba(255,56,92,.07);color:var(--rausch);border:1px solid rgba(255,56,92,.25);}
+.chip-stop{background:var(--bg-alt);color:var(--ink-soft);border:1px solid var(--line-strong);}
 .conv-body{background:var(--wa-bg);padding:16px 14px;display:flex;flex-direction:column;}
+
+/* ══════════ OPT-OUT: chat → sheet flip ══════════ */
+.optout-grid{
+  display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:44px;align-items:center;
+}
+.flip-card{
+  background:#fff;border:1px solid var(--line);border-radius:var(--r-card);
+  overflow:hidden;box-shadow:var(--shadow-sm);
+}
+.flip-hdr{
+  display:flex;align-items:center;gap:9px;
+  padding:13px 18px;background:#E7F4EA;border-bottom:1px solid var(--line);
+}
+.flip-hdr.stop{background:var(--bg-alt);}
+.flip-ttl{font-size:13.5px;font-weight:700;color:#1E7A2E;}
+.flip-hdr.stop .flip-ttl{color:var(--ink-soft);}
+.flip-sync{font-size:11.5px;color:var(--ink-soft);margin-left:auto;}
+.flip-cols{display:grid;grid-template-columns:1.1fr 1fr 1.2fr;padding:10px 18px;border-bottom:1px solid var(--line);}
+.flip-cols span{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--ink-faint);}
+.flip-row{
+  display:grid;grid-template-columns:1.1fr 1fr 1.2fr;align-items:center;
+  padding:16px 18px;transition:background .5s ease;
+}
+.flip-row .fr-name{font-size:14px;font-weight:600;color:var(--ink);}
+.flip-row .fr-prop{font-size:13.5px;color:var(--ink-soft);}
+.flip-status{position:relative;height:26px;}
+.st-before,.st-after{
+  position:absolute;left:0;top:0;display:inline-flex;align-items:center;
+  font-size:13px;font-weight:700;white-space:nowrap;
+  transition:opacity .55s ease,transform .55s ease;
+}
+.st-before{color:#0B57D0;opacity:1;}
+.st-after{color:var(--ink-soft);opacity:0;transform:translateY(8px);}
+.flip-note{padding:11px 18px;font-size:12px;color:var(--ink-soft);border-top:1px solid var(--line);font-style:italic;background:var(--bg-alt);}
+@keyframes rowFlash{0%{background:rgba(255,56,92,0);}35%{background:rgba(255,56,92,.09);}100%{background:rgba(255,56,92,0);}}
+.chat-seq.play .st-before{opacity:0;transform:translateY(-8px);transition-delay:2.6s;}
+.chat-seq.play .st-after{opacity:1;transform:none;transition-delay:2.8s;}
+.chat-seq.play .flip-row{animation:rowFlash 1.7s ease 2.5s 1;}
+.flip-arrow{
+  display:flex;align-items:center;justify-content:center;
+  width:44px;height:44px;border-radius:50%;margin:0 auto;
+  background:var(--bg-alt);border:1px solid var(--line);
+  font-size:18px;color:var(--ink-soft);
+}
+@media (max-width:640px){
+  .optout-grid{grid-template-columns:1fr;}
+  .flip-arrow{transform:rotate(90deg);}
+  .flip-cols,.flip-row{grid-template-columns:1fr .75fr 1.25fr;padding-left:14px;padding-right:14px;}
+  .st-before,.st-after{font-size:12px;white-space:normal;line-height:1.3;}
+  .flip-status{height:auto;min-height:32px;}
+}
 
 /* ══════════ SHEET + METRICS ══════════ */
 .sheet-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:28px;margin-top:44px;align-items:start;}
@@ -348,6 +400,7 @@ header.scrolled{box-shadow:0 2px 12px rgba(0,0,0,0.06);}
 .gs-sent{color:#0B57D0;font-weight:600;}
 .gs-view{color:var(--rausch);font-weight:700;}
 .gs-cold{color:var(--ink-faint);}
+.gs-stop{color:var(--ink-soft);font-weight:700;}
 .gs-note{padding:11px 18px;font-size:12px;color:var(--ink-soft);border-top:1px solid var(--line);font-style:italic;background:var(--bg-alt);}
 
 .chan-card{
@@ -703,6 +756,61 @@ footer{border-top:1px solid var(--line);padding:34px 0 110px;background:var(--bg
   </div>
 </section>
 
+<!-- ══════════ OPT-OUT: a "no" keeps the list clean ══════════ -->
+<section id="optout">
+  <div class="wrap">
+    <span class="kicker rv">Even a "no" is useful</span>
+    <h2 class="rv">Not interested? The sheet handles it.</h2>
+    <p class="lede rv rv-d1">When someone asks to be left alone, the system respects it instantly — their status flips to <strong>Not interested</strong> and they're never messaged again. Your list stays clean and compliant, automatically.</p>
+
+    <div class="optout-grid">
+      <div class="conv-card rv">
+        <div class="conv-hdr">
+          <div class="av-wrap">
+            <div class="conv-av" style="background:linear-gradient(135deg,#8B5CF6,#6D5CF6);">O</div>
+            <div class="online-dot" style="border-color:#fff;"></div>
+          </div>
+          <div>
+            <div class="conv-name">Omar Haddad</div>
+            <div class="conv-detail">Cold 6 months · Marina 1BR · Investor</div>
+          </div>
+          <div class="conv-chip chip-stop">🚫 Opted out</div>
+        </div>
+        <div class="conv-body chat-seq">
+          <div class="bubble out cs-1">Hi Omar, a couple of well-priced 1BR options have come up in Dubai Marina this quarter. Given your earlier interest, worth a quick look?</div>
+          <div class="b-meta right cs-2">Monday 9:11 am · AI-generated <span class="ticks">✓✓</span></div>
+          <div class="typing-bub cs-3"><div class="t-dot"></div><div class="t-dot"></div><div class="t-dot"></div></div>
+          <div class="bubble in cs-4">No thanks, I already bought elsewhere. Please don't message me again.</div>
+          <div class="b-meta cs-5">Monday 10:02 am · 51 min later</div>
+          <div class="bubble out cs-6">Understood, Omar — I've taken you off the list. All the best with the new place! 🙏</div>
+          <div class="b-meta right cs-6">Auto-reply · You will not be contacted again <span class="ticks">✓✓</span></div>
+        </div>
+      </div>
+
+      <div>
+        <div class="flip-arrow rv rv-d1">↦</div>
+        <div class="flip-card chat-seq rv rv-d1" style="margin-top:18px;">
+          <div class="flip-hdr stop">
+            <div class="gsheet-dot" style="background:var(--ink-faint);"></div>
+            <div class="flip-ttl">Google Sheet — auto-update</div>
+            <div class="flip-sync">Updated on reply</div>
+          </div>
+          <div class="flip-cols"><span>Name</span><span>Property</span><span>Status</span></div>
+          <div class="flip-row">
+            <div class="fr-name">Omar Haddad</div>
+            <div class="fr-prop">Marina 1BR</div>
+            <div class="flip-status">
+              <span class="st-before">✓ Sent</span>
+              <span class="st-after">🚫 Not interested — removed</span>
+            </div>
+          </div>
+          <div class="flip-note">🔒 Opted-out contacts are excluded from every future broadcast — no manual clean-up, fully compliant.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- ══════════ RESULTS: SHEET + CHANNELS ══════════ -->
 <section class="alt" id="results">
   <div class="wrap">
@@ -729,6 +837,7 @@ footer{border-top:1px solid var(--line);padding:34px 0 110px;background:var(--bg
             <tr><td>Khalid Al Rashid</td><td>Damac Islands 2</td><td class="gs-sent">✓ Sent</td><td>9:02am</td><td>—</td></tr>
             <tr><td>Priya Nair</td><td>JVC 1BR</td><td class="gs-hot">🔥 Hot lead</td><td>9:08am</td><td>Tue 8am</td></tr>
             <tr><td>Ahmed Al Mansoori</td><td>Business Bay</td><td class="gs-view">📅 Viewing</td><td>9:14am</td><td>4:47pm</td></tr>
+            <tr><td>Omar Haddad</td><td>Marina 1BR</td><td class="gs-stop">🚫 Not interested</td><td>9:11am</td><td>10:02am</td></tr>
             <tr><td>Mohammed Al Farsi</td><td>Dubai Hills</td><td class="gs-cold">❄ Cold</td><td>3 mths</td><td>—</td></tr>
           </tbody>
         </table>
