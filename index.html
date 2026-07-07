@@ -480,20 +480,57 @@ header.scrolled{box-shadow:0 2px 12px rgba(0,0,0,0.06);}
 .funnel-title{font-size:18px;font-weight:800;letter-spacing:-.3px;}
 .funnel-title b{color:var(--rausch);}
 .funnel-sub{font-size:12px;color:var(--ink-faint);}
-.funnel{display:flex;flex-direction:column;gap:11px;}
-.fn-row{display:flex;align-items:center;gap:18px;}
-.fn-track{flex:1;min-width:0;}
-.fn-bar{
-  height:50px;border-radius:11px;display:flex;align-items:center;gap:12px;
-  padding:0 18px;color:#fff;width:0;overflow:hidden;white-space:nowrap;
-  transition:width 1.05s cubic-bezier(.22,1,.36,1);
+
+/* True tapering funnel */
+.funnelx{max-width:600px;margin:0 auto;position:relative;}
+.fx-seg{
+  --tw:100%;--bw:82%;
+  position:relative;width:100%;height:74px;margin-top:-1px;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  color:#fff;text-align:center;overflow:hidden;
+  clip-path:polygon(
+    calc((100% - var(--tw))/2) 0, calc(100% - (100% - var(--tw))/2) 0,
+    calc(100% - (100% - var(--bw))/2) 100%, calc((100% - var(--bw))/2) 100%);
+  opacity:0;transform:translateY(-18px) scaleY(.86);transform-origin:top center;
+  transition:opacity .6s cubic-bezier(.22,1,.36,1),transform .6s cubic-bezier(.22,1,.36,1);
 }
-.fn-num{font-size:23px;font-weight:800;letter-spacing:-.5px;}
-.fn-name{font-size:13.5px;font-weight:600;opacity:.96;}
-.fn-note{width:160px;flex-shrink:0;font-size:12.5px;color:var(--ink-soft);line-height:1.4;}
-.fn-note b{color:var(--ink);font-weight:700;}
+.funnelx.play .fx-seg{opacity:1;transform:none;}
+.funnelx.play .fx-seg.s1{transition-delay:.05s;}
+.funnelx.play .fx-seg.s2{transition-delay:.22s;}
+.funnelx.play .fx-seg.s3{transition-delay:.39s;}
+.funnelx.play .fx-seg.s4{transition-delay:.56s;}
+.funnelx.play .fx-deal{transition-delay:.82s;}
+.fx-seg.s1{--tw:100%;--bw:80%;background:linear-gradient(180deg,#25D366,#0F9D6E);}
+.fx-seg.s2{--tw:80%;--bw:60%;background:linear-gradient(180deg,#12B981,#0BA5A0);}
+.fx-seg.s3{--tw:60%;--bw:42%;background:linear-gradient(180deg,#FF9F0A,#FF7A2F);}
+.fx-seg.s4{--tw:42%;--bw:26%;background:linear-gradient(180deg,#F0356A,#D70466);}
+.fx-num{font-size:26px;font-weight:800;line-height:1;letter-spacing:-.5px;}
+.fx-lbl{font-size:12px;font-weight:600;opacity:.95;margin-top:3px;white-space:nowrap;}
+/* light sweep flowing down the funnel */
+.fx-seg::after{
+  content:'';position:absolute;left:0;right:0;top:-100%;height:60%;
+  background:linear-gradient(180deg,transparent,rgba(255,255,255,.28),transparent);
+  pointer-events:none;
+}
+.funnelx.play .fx-seg::after{animation:fxFlow 2.6s ease-in-out 1.1s infinite;}
+@keyframes fxFlow{0%{top:-70%;}55%,100%{top:170%;}}
+/* deal node — the funnel pours into it */
+.fx-deal{
+  width:150px;margin:14px auto 0;padding:16px 10px;border-radius:14px;
+  background:linear-gradient(180deg,#E61E4D,#B5024F);color:#fff;text-align:center;
+  box-shadow:0 12px 26px -8px rgba(215,4,102,.55);
+  opacity:0;transform:translateY(-10px) scale(.9);
+  transition:opacity .55s cubic-bezier(.22,1,.36,1),transform .55s cubic-bezier(.34,1.4,.64,1);
+}
+.funnelx.play .fx-deal{opacity:1;transform:none;}
+.funnelx.play .fx-deal{animation:dealGlow 2.8s ease-in-out 1.4s infinite;}
+@keyframes dealGlow{0%,100%{box-shadow:0 12px 26px -8px rgba(215,4,102,.45);}50%{box-shadow:0 12px 34px -6px rgba(215,4,102,.8);}}
+.fx-deal-n{font-size:24px;font-weight:800;line-height:1;}
+.fx-deal-l{display:block;font-size:11px;font-weight:600;opacity:.92;margin-top:4px;}
+.fx-neck{width:2px;height:16px;margin:0 auto;background:linear-gradient(180deg,var(--line-strong),transparent);}
+
 .funnel-outcome{
-  margin-top:22px;display:flex;align-items:center;gap:15px;
+  margin-top:24px;display:flex;align-items:center;gap:15px;
   background:rgba(255,56,92,.06);border:1px solid rgba(255,56,92,.2);
   border-radius:12px;padding:16px 20px;
 }
@@ -503,12 +540,19 @@ header.scrolled{box-shadow:0 2px 12px rgba(0,0,0,0.06);}
 .funnel-foot{margin-top:14px;font-size:11.5px;color:var(--ink-faint);line-height:1.5;}
 @media (max-width:640px){
   .funnel-block{padding:22px 18px 20px;}
-  .fn-row{gap:10px;}
-  .fn-note{width:88px;font-size:11px;}
-  .fn-num{font-size:18px;}
-  .fn-name{font-size:11.5px;}
-  .fn-bar{height:44px;padding:0 13px;gap:8px;min-width:108px;}
+  /* gentler taper so labels stay legible on narrow screens */
+  .fx-seg{height:66px;}
+  .fx-seg.s1{--tw:100%;--bw:86%;}
+  .fx-seg.s2{--tw:86%;--bw:72%;}
+  .fx-seg.s3{--tw:72%;--bw:58%;}
+  .fx-seg.s4{--tw:58%;--bw:44%;}
+  .fx-num{font-size:22px;}
   .funnel-outcome{align-items:flex-start;}
+}
+@media (prefers-reduced-motion:reduce){
+  .fx-seg{opacity:1;transform:none;}
+  .fx-deal{opacity:1;transform:none;}
+  .fx-seg::after,.funnelx.play .fx-deal{animation:none;}
 }
 
 /* ══════════ PRICING ══════════ */
@@ -998,22 +1042,15 @@ footer{border-top:1px solid var(--line);padding:34px 0 110px;background:var(--bg
         <div class="funnel-title">What <b>100 messages</b> turns into</div>
         <div class="funnel-sub">Conservative, based on industry WhatsApp benchmarks</div>
       </div>
-      <div class="funnel" id="funnel">
-        <div class="fn-row">
-          <div class="fn-track"><div class="fn-bar" data-w="100%" style="background:linear-gradient(90deg,#25D366,#008069);"><span class="fn-num">100</span><span class="fn-name">Messages sent</span></div></div>
-          <div class="fn-note">Your whole batch goes out automatically</div>
-        </div>
-        <div class="fn-row">
-          <div class="fn-track"><div class="fn-bar" data-w="86%" style="background:linear-gradient(90deg,#34D399,#10B981);"><span class="fn-num">90</span><span class="fn-name">Read</span></div></div>
-          <div class="fn-note"><b>~90%</b> open rate on WhatsApp</div>
-        </div>
-        <div class="fn-row">
-          <div class="fn-track"><div class="fn-bar" data-w="52%" style="background:linear-gradient(90deg,#FF9F0A,#FF6B35);"><span class="fn-num">5</span><span class="fn-name">Replies</span></div></div>
-          <div class="fn-note"><b>~5%</b> reply (3–8% benchmark)</div>
-        </div>
-        <div class="fn-row">
-          <div class="fn-track"><div class="fn-bar" data-w="34%" style="background:linear-gradient(90deg,#E61E4D,#D70466);"><span class="fn-num">2</span><span class="fn-name">Meetings</span></div></div>
-          <div class="fn-note"><b>~40%</b> of replies book a call or viewing</div>
+      <div class="funnelx" id="funnelx">
+        <div class="fx-seg s1"><span class="fx-num" data-n="100">0</span><span class="fx-lbl">Messages sent</span></div>
+        <div class="fx-seg s2"><span class="fx-num" data-n="90">0</span><span class="fx-lbl">Read · ~90% open</span></div>
+        <div class="fx-seg s3"><span class="fx-num" data-n="5">0</span><span class="fx-lbl">Replies · ~5%</span></div>
+        <div class="fx-seg s4"><span class="fx-num" data-n="2">0</span><span class="fx-lbl">Meetings</span></div>
+        <div class="fx-neck"></div>
+        <div class="fx-deal">
+          <span class="fx-deal-n">≈1</span>
+          <span class="fx-deal-l">closed deal / ~500 sent</span>
         </div>
       </div>
       <div class="funnel-outcome">
@@ -1276,15 +1313,30 @@ footer{border-top:1px solid var(--line);padding:34px 0 110px;background:var(--bg
   document.querySelectorAll('.chan-card').forEach(function(el){io.observe(el);});
 })();
 
-/* ── Conversion funnel bars ── */
+/* ── Conversion funnel: reveal + count-up ── */
 (function(){
-  var funnel=document.getElementById('funnel');
+  var funnel=document.getElementById('funnelx');
   if(!funnel)return;
+  var reduce=window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+  function countUp(el,delay){
+    var target=parseInt(el.dataset.n,10);
+    if(reduce){el.textContent=target;return;}
+    setTimeout(function(){
+      var dur=900,start=null;
+      function tick(ts){
+        if(!start)start=ts;
+        var p=Math.min((ts-start)/dur,1);
+        el.textContent=Math.round(target*(1-Math.pow(1-p,3)));
+        if(p<1)requestAnimationFrame(tick);
+      }
+      requestAnimationFrame(tick);
+    },delay);
+  }
   var io=new IntersectionObserver(function(entries){
     entries.forEach(function(e){
       if(e.isIntersecting){
-        var bars=e.target.querySelectorAll('.fn-bar');
-        bars.forEach(function(b,i){setTimeout(function(){b.style.width=b.dataset.w;},i*180);});
+        e.target.classList.add('play');
+        e.target.querySelectorAll('.fx-num').forEach(function(n,i){countUp(n,120+i*170);});
         io.unobserve(e.target);
       }
     });
