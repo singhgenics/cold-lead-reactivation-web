@@ -593,32 +593,59 @@ header.scrolled{box-shadow:0 2px 12px rgba(0,0,0,0.06);}
 /* ══════════ CTA ══════════ */
 .cta-section{padding:96px 0;}
 .cta-panel{
-  background:var(--grad);border-radius:28px;
+  background:linear-gradient(120deg,#E61E4D,#E31C5F,#D70466,#E31C5F,#E61E4D);
+  background-size:300% 300%;
+  animation:ctaGradientFlow 12s ease infinite;
+  border-radius:28px;
   padding:clamp(44px,7vw,80px) clamp(28px,6vw,80px);
   text-align:center;color:#fff;position:relative;overflow:hidden;
   box-shadow:0 24px 60px -20px rgba(215,4,102,.45);
 }
+@keyframes ctaGradientFlow{0%{background-position:0% 50%;}50%{background-position:100% 50%;}100%{background-position:0% 50%;}}
 .cta-panel::before,.cta-panel::after{
   content:'';position:absolute;border-radius:50%;
   background:rgba(255,255,255,.09);pointer-events:none;
 }
-.cta-panel::before{width:340px;height:340px;top:-160px;right:-100px;}
-.cta-panel::after{width:280px;height:280px;bottom:-150px;left:-80px;}
-.cta-panel h2{color:#fff;font-size:clamp(30px,4.4vw,48px);margin-bottom:16px;position:relative;z-index:1;}
+.cta-panel::before{width:340px;height:340px;top:-160px;right:-100px;animation:ctaBlobA 9s ease-in-out infinite;}
+.cta-panel::after{width:280px;height:280px;bottom:-150px;left:-80px;animation:ctaBlobB 11s ease-in-out infinite;}
+@keyframes ctaBlobA{0%,100%{transform:translate(0,0) scale(1);opacity:.09;}50%{transform:translate(-26px,26px) scale(1.16);opacity:.17;}}
+@keyframes ctaBlobB{0%,100%{transform:translate(0,0) scale(1);opacity:.09;}50%{transform:translate(22px,-22px) scale(1.12);opacity:.16;}}
+.cta-headline{
+  display:flex;align-items:center;justify-content:center;gap:16px;
+  margin-bottom:16px;position:relative;z-index:1;
+}
+.cta-ic{
+  width:60px;height:60px;border-radius:18px;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;font-size:28px;
+  background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.32);
+  animation:ctaIconPulse 2.4s ease-in-out infinite;
+}
+@keyframes ctaIconPulse{
+  0%,100%{transform:scale(1);box-shadow:0 8px 20px rgba(0,0,0,.12);}
+  50%{transform:scale(1.08);box-shadow:0 10px 26px rgba(0,0,0,.2),0 0 0 8px rgba(255,255,255,.12);}
+}
+.cta-panel h2{color:#fff;font-size:clamp(30px,4.4vw,48px);margin:0;text-align:left;}
 .cta-panel p{
   font-size:clamp(15px,1.6vw,18px);color:rgba(255,255,255,.9);
-  max-width:520px;margin:0 auto 36px;line-height:1.65;position:relative;z-index:1;
+  max-width:520px;margin:0 auto 36px;line-height:1.65;position:relative;z-index:1;text-align:center;
 }
 .cta-contacts{
   display:flex;gap:16px;justify-content:center;flex-wrap:wrap;position:relative;z-index:1;
 }
 .cta-contact{
-  display:inline-flex;align-items:center;gap:10px;
+  display:inline-flex;align-items:center;gap:10px;position:relative;
   background:#fff;color:var(--ink);text-decoration:none;
   font-size:15px;font-weight:700;
   padding:14px 26px;border-radius:12px;box-shadow:var(--shadow-sm);
   transition:transform .15s ease,box-shadow .2s ease;
 }
+.cta-contact::before{
+  content:'';position:absolute;inset:-6px;border-radius:16px;z-index:-1;
+  background:rgba(255,255,255,.55);opacity:0;pointer-events:none;
+  animation:ctaGlowPulse 2.6s ease-in-out infinite;
+}
+.cta-contact:nth-child(2)::before{animation-delay:.55s;}
+@keyframes ctaGlowPulse{0%,100%{opacity:0;transform:scale(.94);}50%{opacity:.5;transform:scale(1.07);}}
 .cta-contact:hover{transform:translateY(-2px);box-shadow:var(--shadow-md);}
 .cta-contact:active{transform:scale(.97);}
 
@@ -670,6 +697,8 @@ footer{border-top:1px solid var(--line);padding:34px 0 110px;background:var(--bg
   .steps{grid-template-columns:1fr;}
   .conv-chip{display:none;}
   .mob-cta{display:block;}
+  .cta-headline{flex-direction:column;gap:12px;}
+  .cta-panel h2{text-align:center;}
   .cta-panel{border-radius:20px;}
   .cta-contact{width:100%;justify-content:center;font-size:13.5px;padding:14px 12px;}
   .gs-tbl{min-width:540px;}
@@ -1117,7 +1146,10 @@ footer{border-top:1px solid var(--line);padding:34px 0 110px;background:var(--bg
 <section class="cta-section alt" id="contact">
   <div class="wrap">
     <div class="cta-panel rv">
-      <h2>First leads reactivated within 48 hours of your setup call.</h2>
+      <div class="cta-headline">
+        <div class="cta-ic">🚀</div>
+        <h2>First leads reactivated within 48 hours of your setup call.</h2>
+      </div>
       <p>Whether you run a Dubai real estate agency or work solo as an agent, if you have a database of cold leads, your first leads can be reactivated this week.</p>
       <div class="cta-contacts">
         <a class="cta-contact" href="https://wa.me/971524718935?text=Hi%20I%20am%20interested%20to%20reactivate%20my%20cold%20leads%21" target="_blank" rel="noopener">📱 +971 52 471 8935</a>
