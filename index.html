@@ -527,7 +527,7 @@ footer{border-top:1px solid var(--line);padding:34px 0 110px;background:var(--bg
       <div>
         <div class="hero-pill rv"><div class="live-dot"></div>First broadcast live within 48 hours</div>
         <h1 class="rv rv-d1">Your cold leads are still <em>warm.</em></h1>
-        <p class="lede rv rv-d2">AI-powered WhatsApp automation for Dubai real estate. 300 contacts get a personalised message every week — with zero agent hours spent.</p>
+        <p class="lede rv rv-d2">AI-powered WhatsApp automation for Dubai real estate. 1,000+ contacts get a personalised message every week — with zero agent hours spent.</p>
         <div class="hero-actions rv rv-d3">
           <a class="btn btn-primary" href="#contact">Book a setup call</a>
           <a class="btn btn-ghost" href="#how">See how it works</a>
@@ -573,7 +573,7 @@ footer{border-top:1px solid var(--line);padding:34px 0 110px;background:var(--bg
 <!-- ══════════ STATS STRIP ══════════ -->
 <section class="stats-strip">
   <div class="stats-in">
-    <div class="stat rv"><div class="stat-n"><em data-count="300">0</em></div><div class="stat-l">contacts messaged every week, automatically</div></div>
+    <div class="stat rv"><div class="stat-n"><em data-count="1000">0</em>+</div><div class="stat-l">contacts messaged every week, automatically</div></div>
     <div class="stat rv rv-d1"><div class="stat-n"><em data-count="92">0</em>%</div><div class="stat-l">WhatsApp open rate vs 20% on email</div></div>
     <div class="stat rv rv-d2"><div class="stat-n"><em data-count="60">0</em>s</div><div class="stat-l">to alert your agent when a warm reply lands</div></div>
     <div class="stat rv rv-d3"><div class="stat-n"><em>0</em></div><div class="stat-l">manual hours spent on outreach each week</div></div>
@@ -590,7 +590,7 @@ footer{border-top:1px solid var(--line);padding:34px 0 110px;background:var(--bg
       <div class="card rv">
         <div class="card-icon" style="background:rgba(255,56,92,.08);">⏱</div>
         <h3>One week of work per campaign</h3>
-        <p>Reaching 300 contacts manually takes an entire week of agent time — which is why it rarely happens at all.</p>
+        <p>Reaching 1,000+ contacts by hand is simply impossible for one team — which is why it rarely happens at all.</p>
       </div>
       <div class="card rv rv-d1">
         <div class="card-icon" style="background:rgba(255,159,10,.1);">📋</div>
@@ -794,7 +794,7 @@ footer{border-top:1px solid var(--line);padding:34px 0 110px;background:var(--bg
         <div class="price-setup">+ AED 4,000 one-time setup</div>
         <ul class="price-feats">
           <li>Everything in Starter</li>
-          <li>Up to 300 contacts / week</li>
+          <li>Up to 1,000 contacts / week</li>
           <li>+1 additional automation</li>
           <li>WhatsApp support</li>
           <li>Monthly performance report</li>
@@ -900,7 +900,7 @@ footer{border-top:1px solid var(--line);padding:34px 0 110px;background:var(--bg
       if(!start)start=ts;
       var p=Math.min((ts-start)/dur,1);
       var eased=1-Math.pow(1-p,3);
-      el.textContent=Math.round(target*eased);
+      el.textContent=Math.round(target*eased).toLocaleString('en-US');
       if(p<1)requestAnimationFrame(tick);
     }
     requestAnimationFrame(tick);
