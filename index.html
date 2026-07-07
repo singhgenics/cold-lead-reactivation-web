@@ -382,7 +382,9 @@ header.scrolled{box-shadow:0 2px 12px rgba(0,0,0,0.06);}
 }
 .gsheet-dot{width:8px;height:8px;border-radius:50%;background:var(--green);animation:pulse 2s infinite;}
 .gsheet-ttl{font-size:13.5px;font-weight:700;color:#1E7A2E;}
-.gsheet-sync{font-size:11.5px;color:var(--ink-soft);margin-left:auto;}
+.gsheet-sync{font-size:11.5px;color:var(--ink-soft);margin-left:auto;display:inline-flex;align-items:center;gap:6px;font-weight:600;}
+.sync-dot{width:7px;height:7px;border-radius:50%;background:var(--ink-faint);flex-shrink:0;}
+.gsheet-sync.live .sync-dot{background:var(--green);animation:pulse 1s infinite;}
 .gs-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch;}
 .gs-tbl{width:100%;border-collapse:collapse;table-layout:fixed;}
 .gs-tbl th{
@@ -401,6 +403,13 @@ header.scrolled{box-shadow:0 2px 12px rgba(0,0,0,0.06);}
 .gs-view{color:var(--rausch);font-weight:700;}
 .gs-cold{color:var(--ink-faint);}
 .gs-stop{color:var(--ink-soft);font-weight:700;}
+.gs-sending{color:#B26A00;font-weight:600;}
+@keyframes cellPop{0%{opacity:.1;}100%{opacity:1;}}
+.c-status.pop,.c-sent.pop,.c-replied.pop{animation:cellPop .45s ease;}
+@keyframes rowFlashG{0%{background:rgba(0,138,5,0);}30%{background:rgba(0,138,5,.12);}100%{background:rgba(0,138,5,0);}}
+@keyframes rowFlashR{0%{background:rgba(255,56,92,0);}30%{background:rgba(255,56,92,.1);}100%{background:rgba(255,56,92,0);}}
+.gs-tbl tr.flash-g td{animation:rowFlashG 1.1s ease;}
+.gs-tbl tr.flash-r td{animation:rowFlashR 1.1s ease;}
 .gs-note{padding:11px 18px;font-size:12px;color:var(--ink-soft);border-top:1px solid var(--line);font-style:italic;background:var(--bg-alt);}
 
 .chan-card{
@@ -822,10 +831,10 @@ footer{border-top:1px solid var(--line);padding:34px 0 110px;background:var(--bg
         <div class="gsheet-hdr">
           <div class="gsheet-dot"></div>
           <div class="gsheet-ttl">Google Sheet — Live updates</div>
-          <div class="gsheet-sync">Auto-synced every send</div>
+          <div class="gsheet-sync" id="syncBadge"><span class="sync-dot"></span><span id="syncTxt">Auto-synced every send</span></div>
         </div>
         <div class="gs-scroll">
-        <table class="gs-tbl">
+        <table class="gs-tbl" id="liveSheet">
           <colgroup>
             <col style="width:28%"><col style="width:26%"><col style="width:22%"><col style="width:12%"><col style="width:12%">
           </colgroup>
@@ -833,12 +842,12 @@ footer{border-top:1px solid var(--line);padding:34px 0 110px;background:var(--bg
             <tr><th>Name</th><th>Property</th><th>Status</th><th>Sent</th><th>Replied</th></tr>
           </thead>
           <tbody>
-            <tr><td>Sara Al Mansouri</td><td>JVC 2BR</td><td class="gs-hot">🔥 Hot lead</td><td>9:06am</td><td>2:31pm</td></tr>
-            <tr><td>Khalid Al Rashid</td><td>Damac Islands 2</td><td class="gs-sent">✓ Sent</td><td>9:02am</td><td>—</td></tr>
-            <tr><td>Priya Nair</td><td>JVC 1BR</td><td class="gs-hot">🔥 Hot lead</td><td>9:08am</td><td>Tue 8am</td></tr>
-            <tr><td>Ahmed Al Mansoori</td><td>Business Bay</td><td class="gs-view">📅 Viewing</td><td>9:14am</td><td>4:47pm</td></tr>
-            <tr><td>Omar Haddad</td><td>Marina 1BR</td><td class="gs-stop">🚫 Not interested</td><td>9:11am</td><td>10:02am</td></tr>
-            <tr><td>Mohammed Al Farsi</td><td>Dubai Hills</td><td class="gs-cold">❄ Cold</td><td>3 mths</td><td>—</td></tr>
+            <tr><td>Sara Al Mansouri</td><td>JVC 2BR</td><td class="c-status gs-hot">🔥 Hot lead</td><td class="c-sent">9:06am</td><td class="c-replied">2:31pm</td></tr>
+            <tr><td>Khalid Al Rashid</td><td>Damac Islands 2</td><td class="c-status gs-sent">✓ Sent</td><td class="c-sent">9:02am</td><td class="c-replied">—</td></tr>
+            <tr><td>Priya Nair</td><td>JVC 1BR</td><td class="c-status gs-hot">🔥 Hot lead</td><td class="c-sent">9:08am</td><td class="c-replied">Tue 8am</td></tr>
+            <tr><td>Ahmed Al Mansoori</td><td>Business Bay</td><td class="c-status gs-view">📅 Viewing</td><td class="c-sent">9:14am</td><td class="c-replied">4:47pm</td></tr>
+            <tr><td>Omar Haddad</td><td>Marina 1BR</td><td class="c-status gs-stop">🚫 Not interested</td><td class="c-sent">9:11am</td><td class="c-replied">10:02am</td></tr>
+            <tr><td>Mohammed Al Farsi</td><td>Dubai Hills</td><td class="c-status gs-cold">❄ Cold</td><td class="c-sent">3 mths</td><td class="c-replied">—</td></tr>
           </tbody>
         </table>
         </div>
@@ -1020,6 +1029,96 @@ footer{border-top:1px solid var(--line);padding:34px 0 110px;background:var(--bg
     });
   },{threshold:0.5});
   document.querySelectorAll('[data-count]').forEach(function(el){io.observe(el);});
+})();
+
+/* ── Live realtime Google Sheet ── */
+(function(){
+  var table=document.getElementById('liveSheet');
+  var syncBadge=document.getElementById('syncBadge');
+  var syncTxt=document.getElementById('syncTxt');
+  if(!table||window.matchMedia('(prefers-reduced-motion:reduce)').matches)return;
+
+  var rows=Array.prototype.slice.call(table.querySelectorAll('tbody tr'));
+  var STK={
+    cold:['gs-cold','❄ Cold'], sending:['gs-sending','⏳ Sending…'],
+    sent:['gs-sent','✓ Sent'], hot:['gs-hot','🔥 Hot lead'],
+    view:['gs-view','📅 Viewing'], stop:['gs-stop','🚫 Not interested']
+  };
+  // Per-row script (order matches the tbody). null reply = stays Sent; static = never messaged.
+  var CFG=[
+    {sent:'9:06am', reply:{t:'2:31pm',k:'hot'}},
+    {sent:'9:02am', reply:null},
+    {sent:'9:08am', reply:{t:'Tue 8am',k:'hot'}},
+    {sent:'9:14am', reply:{t:'4:47pm',k:'view'}},
+    {sent:'9:11am', reply:{t:'10:02am',k:'stop'}},
+    {static:true}
+  ];
+  var timers=[], playing=false;
+  function at(ms,fn){timers.push(setTimeout(fn,ms));}
+  function clearTimers(){timers.forEach(clearTimeout);timers=[];}
+
+  function setStatus(i,k){
+    var cell=rows[i].querySelector('.c-status');
+    cell.className='c-status '+STK[k][0];
+    cell.textContent=STK[k][1];
+    cell.classList.remove('pop');void cell.offsetWidth;cell.classList.add('pop');
+  }
+  function setCell(i,sel,val){
+    var cell=rows[i].querySelector(sel);
+    cell.textContent=val;
+    cell.classList.remove('pop');void cell.offsetWidth;cell.classList.add('pop');
+  }
+  function flash(i,type){
+    var tr=rows[i];tr.classList.remove('flash-g','flash-r');void tr.offsetWidth;
+    tr.classList.add(type==='r'?'flash-r':'flash-g');
+  }
+  function sync(txt,live){syncTxt.textContent=txt;syncBadge.classList.toggle('live',!!live);}
+  function counts(s,r){return s+' sent · '+r+(r===1?' reply':' replies');}
+
+  function reset(){
+    CFG.forEach(function(c,i){
+      if(c.static){setStatus(i,'cold');return;}
+      setStatus(i,'cold');
+      setCell(i,'.c-sent','—');
+      setCell(i,'.c-replied','—');
+    });
+  }
+
+  function play(){
+    clearTimers();reset();
+    var sent=0, replies=0;
+    sync('Syncing…',true);
+    var t=700;
+    // Phase 1 — messages go out
+    CFG.forEach(function(c,i){
+      if(c.static)return;
+      at(t,function(){setStatus(i,'sending');});
+      at(t+560,function(){
+        setStatus(i,'sent');setCell(i,'.c-sent',c.sent);flash(i,'g');
+        sent++;sync(counts(sent,replies),true);
+      });
+      t+=680;
+    });
+    // Phase 2 — replies land
+    var rt=t+700;
+    CFG.forEach(function(c,i){
+      if(c.static||!c.reply)return;
+      at(rt,function(){
+        setStatus(i,c.reply.k);setCell(i,'.c-replied',c.reply.t);flash(i,'r');
+        replies++;sync(counts(sent,replies),true);
+      });
+      rt+=820;
+    });
+    at(rt+400,function(){sync('✓ All synced',false);});
+    at(rt+4600,play); // loop so it always looks live
+  }
+
+  var io=new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(e.isIntersecting&&!playing){playing=true;play();}
+    });
+  },{threshold:0.45});
+  io.observe(table);
 })();
 
 /* ── Animated channel bars ── */
