@@ -218,7 +218,7 @@ header.scrolled{box-shadow:0 2px 12px rgba(0,0,0,0.06);}
 .chat-seq.play .cs-6{transition-delay:2.9s;}
 
 /* ══════════ WHO IT'S FOR ══════════ */
-.who-grid{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin-top:44px;}
+.who-grid{display:grid;grid-template-columns:1fr;gap:22px;margin-top:44px;max-width:680px;}
 .who-card{
   background:#fff;border:1px solid var(--line);border-radius:var(--r-card);
   padding:30px 28px;display:flex;gap:20px;align-items:flex-start;
@@ -233,7 +233,6 @@ header.scrolled{box-shadow:0 2px 12px rgba(0,0,0,0.06);}
 .who-card h3{font-size:18px;font-weight:800;margin-bottom:7px;letter-spacing:-.2px;}
 .who-card p{font-size:14.5px;color:var(--ink-soft);line-height:1.6;}
 @media (max-width:640px){
-  .who-grid{grid-template-columns:1fr;}
   .who-card{padding:24px 22px;gap:16px;}
 }
 
@@ -550,10 +549,6 @@ header.scrolled{box-shadow:0 2px 12px rgba(0,0,0,0.06);}
 }
 
 /* ══════════ PRICING ══════════ */
-.price-group-title{font-size:20px;font-weight:800;letter-spacing:-.3px;margin:0 0 6px;}
-.price-group-sub{font-size:14px;color:var(--ink-soft);margin-bottom:0;}
-.price-group{margin-top:52px;}
-.price-group:first-of-type{margin-top:40px;}
 .price-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:28px;align-items:stretch;}
 .price-grid-2{grid-template-columns:repeat(2,1fr);}
 .price-card{
@@ -779,21 +774,14 @@ footer{border-top:1px solid var(--line);padding:34px 0 110px;background:var(--bg
 <section id="who">
   <div class="wrap">
     <span class="kicker rv">Who it's for</span>
-    <h2 class="rv">Built for real estate.</h2>
-    <p class="lede rv rv-d1">Whether you run a whole brokerage or work your own book of clients, if you have a database of past leads and enquiries, this turns it back into deals.</p>
+    <h2 class="rv">Built for real estate agencies.</h2>
+    <p class="lede rv rv-d1">If you run a brokerage with a database of past leads and enquiries sitting cold, this turns it back into deals, automatically, every week.</p>
     <div class="who-grid">
       <div class="who-card rv">
         <div class="who-ic">🏢</div>
         <div>
           <h3>Real estate agencies</h3>
           <p>Reactivate your entire team's database every week from one automation. Every agent's cold leads get a personalised message, and warm replies are routed to the right person in under 60 seconds.</p>
-        </div>
-      </div>
-      <div class="who-card rv rv-d1">
-        <div class="who-ic" style="background:rgba(0,138,5,.08);">👤</div>
-        <div>
-          <h3>Individual agents</h3>
-          <p>Working solo? Keep your personal pipeline warm without lifting a finger. Your past buyers and enquiries hear from you consistently, so the next deal comes to you, not the agent who stayed in touch.</p>
         </div>
       </div>
     </div>
@@ -1073,77 +1061,38 @@ footer{border-top:1px solid var(--line);padding:34px 0 110px;background:var(--bg
   <div class="wrap">
     <span class="kicker rv">Pricing</span>
     <h2 class="rv">Simple, transparent pricing.</h2>
-    <p class="lede rv rv-d1">Two ways to work together — as an agency with a shared team database, or as an individual agent running your own list. No long-term contracts. Switch off at any time.</p>
+    <p class="lede rv rv-d1">One-time setup of AED 4,000, then a flat monthly fee. No long-term contracts. Switch off at any time.</p>
 
-    <div class="price-group">
-      <h3 class="price-group-title rv">For Agencies</h3>
-      <p class="price-group-sub rv">One-time setup of AED 4,000, then a flat monthly fee.</p>
-      <div class="price-grid price-grid-2">
-        <div class="price-card rv">
-          <div class="price-name">Starter</div>
-          <div class="price-amt"><small>AED</small> 1,999</div>
-          <div class="price-period">per month</div>
-          <div class="price-setup">+ AED 4,000 one-time setup</div>
-          <ul class="price-feats">
-            <li>Unlimited agents on your shared inbox</li>
-            <li>Up to 150 contacts / week</li>
-            <li>AI-personalised WhatsApp messages</li>
-            <li>Automated reply detection &amp; alerts</li>
-            <li>Email support</li>
-          </ul>
-          <a class="btn btn-ghost price-cta" href="#contact">Get started</a>
-        </div>
-
-        <div class="price-card hot rv rv-d1">
-          <div class="price-badge">Most popular</div>
-          <div class="price-name">Growth</div>
-          <div class="price-amt"><small>AED</small> 2,999</div>
-          <div class="price-period">per month</div>
-          <div class="price-setup">+ AED 4,000 one-time setup</div>
-          <ul class="price-feats">
-            <li>Everything in Starter</li>
-            <li>Up to 300 contacts / week</li>
-            <li>Replies routed to the right agent automatically</li>
-            <li>WhatsApp support</li>
-            <li>Monthly performance report</li>
-          </ul>
-          <a class="btn btn-primary price-cta" href="#contact">Get started</a>
-        </div>
+    <div class="price-grid price-grid-2" style="margin-top:44px;">
+      <div class="price-card rv">
+        <div class="price-name">Starter</div>
+        <div class="price-amt"><small>AED</small> 1,999</div>
+        <div class="price-period">per month</div>
+        <div class="price-setup">+ AED 4,000 one-time setup</div>
+        <ul class="price-feats">
+          <li>Unlimited agents on your shared inbox</li>
+          <li>Up to 150 contacts / week</li>
+          <li>AI-personalised WhatsApp messages</li>
+          <li>Automated reply detection &amp; alerts</li>
+          <li>Email support</li>
+        </ul>
+        <a class="btn btn-ghost price-cta" href="#contact">Get started</a>
       </div>
-    </div>
 
-    <div class="price-group">
-      <h3 class="price-group-title rv">For Individual Agents</h3>
-      <p class="price-group-sub rv">One-time setup of AED 1,000, then a flat monthly fee based on contacts reached per week.</p>
-      <div class="price-grid price-grid-2">
-        <div class="price-card rv">
-          <div class="price-name">Starter</div>
-          <div class="price-amt"><small>AED</small> 399</div>
-          <div class="price-period">per month</div>
-          <div class="price-setup">+ AED 1,000 one-time setup</div>
-          <ul class="price-feats">
-            <li>Built for 1 agent, 1 WhatsApp number</li>
-            <li>Up to 100 contacts / week</li>
-            <li>AI-personalised WhatsApp messages</li>
-            <li>Automated reply detection &amp; alerts</li>
-            <li>Email support</li>
-          </ul>
-          <a class="btn btn-ghost price-cta" href="#contact">Get started</a>
-        </div>
-
-        <div class="price-card hot rv rv-d1">
-          <div class="price-badge">Most popular</div>
-          <div class="price-name">Pro</div>
-          <div class="price-amt"><small>AED</small> 599</div>
-          <div class="price-period">per month</div>
-          <div class="price-setup">+ AED 1,000 one-time setup</div>
-          <ul class="price-feats">
-            <li>Everything in Starter</li>
-            <li>Up to 200 contacts / week</li>
-            <li>Priority WhatsApp support</li>
-          </ul>
-          <a class="btn btn-primary price-cta" href="#contact">Get started</a>
-        </div>
+      <div class="price-card hot rv rv-d1">
+        <div class="price-badge">Most popular</div>
+        <div class="price-name">Growth</div>
+        <div class="price-amt"><small>AED</small> 2,999</div>
+        <div class="price-period">per month</div>
+        <div class="price-setup">+ AED 4,000 one-time setup</div>
+        <ul class="price-feats">
+          <li>Everything in Starter</li>
+          <li>Up to 300 contacts / week</li>
+          <li>Replies routed to the right agent automatically</li>
+          <li>WhatsApp support</li>
+          <li>Monthly performance report</li>
+        </ul>
+        <a class="btn btn-primary price-cta" href="#contact">Get started</a>
       </div>
     </div>
 
@@ -1156,7 +1105,7 @@ footer{border-top:1px solid var(--line);padding:34px 0 110px;background:var(--bg
   <div class="wrap">
     <div class="cta-panel rv">
       <h2>First leads reactivated within 48 hours of your setup call.</h2>
-      <p>Whether you run a real estate agency or work solo as an agent, if you have a database of cold leads, your first leads can be reactivated this week.</p>
+      <p>If you run a real estate agency with a database of cold leads, your first leads can be reactivated this week.</p>
       <div class="cta-contacts">
         <a class="cta-contact" href="https://wa.me/971524718935?text=Hi%20I%20am%20interested%20to%20reactivate%20my%20cold%20leads%21" target="_blank" rel="noopener">📱 +971 52 471 8935</a>
         <a class="cta-contact" href="mailto:singhgenics@icloud.com">✉️ singhgenics@icloud.com</a>
