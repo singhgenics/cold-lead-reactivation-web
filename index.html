@@ -550,11 +550,12 @@ header.scrolled{box-shadow:0 2px 12px rgba(0,0,0,0.06);}
 }
 
 /* ══════════ PRICING ══════════ */
-.price-groups{display:grid;grid-template-columns:1fr 1fr;gap:32px;align-items:start;margin-top:40px;}
 .price-group-title{font-size:20px;font-weight:800;letter-spacing:-.3px;margin:0 0 6px;}
 .price-group-sub{font-size:14px;color:var(--ink-soft);margin-bottom:0;}
-.price-group{margin-top:0;}
-.price-grid{display:flex;flex-direction:column;gap:18px;margin-top:22px;}
+.price-group{margin-top:52px;}
+.price-group:first-of-type{margin-top:40px;}
+.price-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:28px;align-items:stretch;}
+.price-grid-2{grid-template-columns:repeat(2,1fr);max-width:760px;}
 .price-card{
   background:#fff;border:1px solid var(--line);border-radius:var(--r-card);
   padding:30px 28px;display:flex;flex-direction:column;position:relative;
@@ -666,7 +667,7 @@ footer{border-top:1px solid var(--line);padding:34px 0 110px;background:var(--bg
   .step:not(:last-child)::after{display:none;}
   .conv-grid{grid-template-columns:1fr;}
   .sheet-grid{grid-template-columns:1fr;}
-  .price-groups{grid-template-columns:1fr;gap:44px;max-width:460px;margin-left:auto;margin-right:auto;}
+  .price-grid{grid-template-columns:1fr;gap:26px;max-width:460px;margin-left:auto;margin-right:auto;}
   .stats-in{grid-template-columns:1fr 1fr;}
   .stat{padding:28px 14px;}
   .stat:nth-child(3)::before{display:none;}
@@ -1074,11 +1075,10 @@ footer{border-top:1px solid var(--line);padding:34px 0 110px;background:var(--bg
     <h2 class="rv">Simple, transparent pricing.</h2>
     <p class="lede rv rv-d1">Two ways to work together — as an agency with a shared team database, or as an individual agent running your own list. No long-term contracts. Switch off at any time.</p>
 
-    <div class="price-groups">
     <div class="price-group">
       <h3 class="price-group-title rv">For Agencies</h3>
       <p class="price-group-sub rv">One-time setup of AED 4,000, then a flat monthly fee.</p>
-      <div class="price-grid">
+      <div class="price-grid price-grid-2">
         <div class="price-card rv">
           <div class="price-name">Starter</div>
           <div class="price-amt"><small>AED</small> 1,999</div>
@@ -1155,7 +1155,6 @@ footer{border-top:1px solid var(--line);padding:34px 0 110px;background:var(--bg
           <a class="btn btn-ghost price-cta" href="#contact">Get started</a>
         </div>
       </div>
-    </div>
     </div>
 
     <p class="price-note rv">All prices in AED · Billed monthly · No long-term contracts</p>
