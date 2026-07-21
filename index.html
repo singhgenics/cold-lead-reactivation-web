@@ -29,6 +29,8 @@
   --shadow-lg:0 16px 36px rgba(215,4,102,0.13),0 4px 12px rgba(34,34,34,0.09);
   --r-card:16px;
   --r-sm:12px;
+  --ease-out:cubic-bezier(.23,1,.32,1);
+  --ease-drawer:cubic-bezier(.32,.72,0,1);
 }
 
 html{scroll-behavior:smooth;}
@@ -61,13 +63,28 @@ h2{font-size:clamp(28px,3.6vw,40px);font-weight:800;line-height:1.12;letter-spac
   display:inline-flex;align-items:center;justify-content:center;gap:8px;
   font-family:inherit;font-size:16px;font-weight:700;
   padding:15px 30px;border-radius:12px;border:none;cursor:pointer;
-  text-decoration:none;transition:transform .15s ease,box-shadow .2s ease,background .2s ease;
+  text-decoration:none;transition:transform .15s var(--ease-out),box-shadow .2s var(--ease-out),background .2s ease;
 }
 .btn-primary{background:var(--grad);color:#fff;box-shadow:var(--shadow-sm);}
-.btn-primary:hover{box-shadow:var(--shadow-md);transform:translateY(-1px);}
 .btn-primary:active{transform:scale(.97);}
 .btn-ghost{background:#fff;color:var(--ink);border:1px solid var(--ink);}
-.btn-ghost:hover{background:var(--bg-alt);}
+.btn-ghost:active{transform:scale(.97);}
+
+/* ── Hover states: gated to real pointers so touch taps never get "stuck" ── */
+@media (hover:hover) and (pointer:fine){
+  .btn-primary:hover{box-shadow:var(--shadow-md);transform:translateY(-1px);}
+  .btn-ghost:hover{background:var(--bg-alt);}
+  .hdr-nav a:hover{background:var(--bg-alt);}
+  .hdr-cta:hover{box-shadow:var(--shadow-md);transform:translateY(-1px);}
+  .who-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-md);}
+  .card:hover{transform:translateY(-4px);box-shadow:var(--shadow-md);}
+  .step:hover{transform:translateY(-4px);box-shadow:var(--shadow-md);}
+  .conv-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-md);}
+  .price-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-md);}
+  .cta-contact:hover{transform:translateY(-2px);box-shadow:var(--shadow-md);}
+  .foot-links a:hover{color:var(--ink);}
+  .spotlight:hover::after{opacity:1;}
+}
 
 /* ── Reveal on scroll ── */
 .rv{opacity:0;transform:translateY(26px) scale(.97);transition:opacity .75s cubic-bezier(.22,1,.36,1),transform .75s cubic-bezier(.22,1,.36,1);}
@@ -91,7 +108,6 @@ h2{font-size:clamp(28px,3.6vw,40px);font-weight:800;line-height:1.12;letter-spac
   background:radial-gradient(280px circle at var(--mx,50%) var(--my,50%),rgba(255,56,92,.11),transparent 68%);
   opacity:0;transition:opacity .4s ease;
 }
-.spotlight:hover::after{opacity:1;}
 .spotlight:active{transform:scale(.985) !important;}
 
 /* ══════════ HEADER ══════════ */
@@ -120,13 +136,12 @@ header.scrolled{box-shadow:0 2px 12px rgba(0,0,0,0.06);}
   font-size:14.5px;font-weight:600;color:var(--ink);text-decoration:none;
   padding:9px 15px;border-radius:100px;transition:background .2s;
 }
-.hdr-nav a:hover{background:var(--bg-alt);}
 .hdr-cta{
   font-size:14.5px;font-weight:700;color:#fff;text-decoration:none;
   background:var(--grad);padding:11px 22px;border-radius:100px;
-  transition:box-shadow .2s,transform .15s;white-space:nowrap;
+  transition:box-shadow .2s var(--ease-out),transform .15s var(--ease-out);white-space:nowrap;
 }
-.hdr-cta:hover{box-shadow:var(--shadow-md);transform:translateY(-1px);}
+.hdr-cta:active{transform:scale(.97);}
 
 /* ══════════ HERO ══════════ */
 .hero{padding:76px 0 96px;overflow:hidden;}
@@ -239,9 +254,8 @@ header.scrolled{box-shadow:0 2px 12px rgba(0,0,0,0.06);}
 .who-card{
   background:#fff;border:1px solid var(--line);border-radius:var(--r-card);
   padding:30px 28px;display:flex;gap:20px;align-items:flex-start;
-  transition:transform .25s ease,box-shadow .25s ease;
+  transition:transform .25s var(--ease-out),box-shadow .25s var(--ease-out);
 }
-.who-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-md);}
 .who-ic{
   width:54px;height:54px;border-radius:14px;flex-shrink:0;
   display:flex;align-items:center;justify-content:center;font-size:25px;
@@ -275,9 +289,8 @@ header.scrolled{box-shadow:0 2px 12px rgba(0,0,0,0.06);}
 @media (max-width:960px){.grid-3>*{margin-top:0 !important;}}
 .card{
   background:#fff;border:1px solid var(--line);border-radius:var(--r-card);
-  padding:28px 26px;transition:transform .25s ease,box-shadow .25s ease;
+  padding:28px 26px;transition:transform .25s var(--ease-out),box-shadow .25s var(--ease-out);
 }
-.card:hover{transform:translateY(-4px);box-shadow:var(--shadow-md);}
 .card-icon{
   width:46px;height:46px;border-radius:12px;
   display:flex;align-items:center;justify-content:center;
@@ -327,9 +340,8 @@ header.scrolled{box-shadow:0 2px 12px rgba(0,0,0,0.06);}
 .step{
   background:#fff;border:1px solid var(--line);border-radius:var(--r-card);
   padding:26px 22px;position:relative;
-  transition:transform .25s ease,box-shadow .25s ease;
+  transition:transform .25s var(--ease-out),box-shadow .25s var(--ease-out);
 }
-.step:hover{transform:translateY(-4px);box-shadow:var(--shadow-md);}
 .step:not(:last-child)::after{
   content:'→';
   position:absolute;top:50%;left:100%;width:20px;
@@ -386,9 +398,8 @@ header.scrolled{box-shadow:0 2px 12px rgba(0,0,0,0.06);}
 .conv-card{
   background:#fff;border:1px solid var(--line);border-radius:var(--r-card);
   overflow:hidden;box-shadow:var(--shadow-sm);
-  transition:transform .25s ease,box-shadow .25s ease;
+  transition:transform .25s var(--ease-out),box-shadow .25s var(--ease-out);
 }
-.conv-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-md);}
 .conv-hdr{
   display:flex;align-items:center;gap:11px;
   padding:15px 18px;border-bottom:1px solid var(--line);
@@ -437,7 +448,7 @@ header.scrolled{box-shadow:0 2px 12px rgba(0,0,0,0.06);}
 .st-before,.st-after{
   position:absolute;left:0;top:0;display:inline-flex;align-items:center;
   font-size:13px;font-weight:700;white-space:nowrap;
-  transition:opacity .55s ease,transform .55s ease;
+  transition:opacity .55s var(--ease-out),transform .55s var(--ease-out);
 }
 .st-before{color:#0B57D0;opacity:1;}
 .st-after{color:var(--ink-soft);opacity:0;transform:translateY(8px);}
@@ -511,7 +522,8 @@ header.scrolled{box-shadow:0 2px 12px rgba(0,0,0,0.06);}
 .ch-row{display:flex;align-items:center;gap:11px;margin-bottom:13px;}
 .ch-lbl{font-size:13px;color:var(--ink-soft);width:74px;flex-shrink:0;font-weight:600;}
 .ch-bg{flex:1;height:22px;background:var(--bg-alt);border-radius:100px;overflow:hidden;}
-.ch-fill{height:100%;border-radius:100px;width:0;transition:width 1.1s cubic-bezier(.22,1,.36,1);}
+.ch-fill{height:100%;border-radius:100px;transform:scaleX(0);transform-origin:left;transition:transform 1.1s cubic-bezier(.22,1,.36,1);}
+.ch-fill.grown{transform:scaleX(1);}
 .ch-pct{font-size:13px;font-weight:800;width:42px;text-align:right;flex-shrink:0;}
 .chan-note{
   margin-top:18px;padding:13px 15px;border-radius:var(--r-sm);
@@ -610,9 +622,8 @@ header.scrolled{box-shadow:0 2px 12px rgba(0,0,0,0.06);}
 .price-card{
   background:#fff;border:1px solid var(--line);border-radius:var(--r-card);
   padding:30px 28px;display:flex;flex-direction:column;position:relative;
-  transition:transform .25s ease,box-shadow .25s ease;
+  transition:transform .25s var(--ease-out),box-shadow .25s var(--ease-out);
 }
-.price-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-md);}
 .price-card.hot{
   border:2px solid var(--rausch);box-shadow:var(--shadow-md);
 }
@@ -679,9 +690,8 @@ header.scrolled{box-shadow:0 2px 12px rgba(0,0,0,0.06);}
   background:#fff;color:var(--ink);text-decoration:none;
   font-size:15px;font-weight:700;
   padding:14px 26px;border-radius:12px;box-shadow:var(--shadow-sm);
-  transition:transform .15s ease,box-shadow .2s ease;
+  transition:transform .15s var(--ease-out),box-shadow .2s var(--ease-out);
 }
-.cta-contact:hover{transform:translateY(-2px);box-shadow:var(--shadow-md);}
 .cta-contact:active{transform:scale(.97);}
 
 /* ══════════ FOOTER ══════════ */
@@ -693,7 +703,6 @@ footer{border-top:1px solid var(--line);padding:34px 0 110px;background:var(--bg
 .foot-in p{font-size:13px;color:var(--ink-soft);}
 .foot-links{display:flex;gap:22px;}
 .foot-links a{font-size:13px;color:var(--ink-soft);text-decoration:none;font-weight:600;}
-.foot-links a:hover{color:var(--ink);}
 
 /* ══════════ MOBILE STICKY CTA ══════════ */
 .mob-cta{
@@ -702,7 +711,7 @@ footer{border-top:1px solid var(--line);padding:34px 0 110px;background:var(--bg
   background:rgba(255,255,255,.95);
   backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
   border-top:1px solid var(--line);
-  transform:translateY(0);transition:transform .3s ease;
+  transform:translateY(0);transition:transform .3s var(--ease-drawer);
 }
 .mob-cta.hidden{transform:translateY(110%);}
 .mob-cta .btn{width:100%;padding:14px;}
@@ -1087,22 +1096,22 @@ footer{border-top:1px solid var(--line);padding:34px 0 110px;background:var(--bg
         <div class="chan-src">Messente / Campaign Monitor 2024</div>
         <div class="ch-row">
           <div class="ch-lbl">WhatsApp</div>
-          <div class="ch-bg"><div class="ch-fill" data-w="92%" style="background:linear-gradient(90deg,#25D366,#008069);"></div></div>
+          <div class="ch-bg"><div class="ch-fill" style="width:92%;background:linear-gradient(90deg,#25D366,#008069);"></div></div>
           <div class="ch-pct" style="color:var(--green);">92%</div>
         </div>
         <div class="ch-row">
           <div class="ch-lbl">SMS</div>
-          <div class="ch-bg"><div class="ch-fill" data-w="28%" style="background:linear-gradient(90deg,#A78BFA,#8B5CF6);"></div></div>
+          <div class="ch-bg"><div class="ch-fill" style="width:28%;background:linear-gradient(90deg,#A78BFA,#8B5CF6);"></div></div>
           <div class="ch-pct" style="color:#8B5CF6;">28%</div>
         </div>
         <div class="ch-row">
           <div class="ch-lbl">Email</div>
-          <div class="ch-bg"><div class="ch-fill" data-w="20%" style="background:linear-gradient(90deg,#FF9A6C,#FF6B35);"></div></div>
+          <div class="ch-bg"><div class="ch-fill" style="width:20%;background:linear-gradient(90deg,#FF9A6C,#FF6B35);"></div></div>
           <div class="ch-pct" style="color:#FF6B35;">20%</div>
         </div>
         <div class="ch-row" style="margin-bottom:0;">
           <div class="ch-lbl">Cold call</div>
-          <div class="ch-bg"><div class="ch-fill" data-w="8%" style="background:linear-gradient(90deg,#F87171,#EF4444);"></div></div>
+          <div class="ch-bg"><div class="ch-fill" style="width:8%;background:linear-gradient(90deg,#F87171,#EF4444);"></div></div>
           <div class="ch-pct" style="color:#EF4444;">8%</div>
         </div>
         <div class="chan-note">In Dubai real estate, one closed deal means <strong>AED 50K–200K in commission</strong>. A single recovered contact from one Monday's outreach pays for months of this running.</div>
@@ -1417,7 +1426,7 @@ footer{border-top:1px solid var(--line);padding:34px 0 110px;background:var(--bg
   var io=new IntersectionObserver(function(entries){
     entries.forEach(function(e){
       if(e.isIntersecting){
-        e.target.querySelectorAll('.ch-fill').forEach(function(f){f.style.width=f.dataset.w;});
+        e.target.querySelectorAll('.ch-fill').forEach(function(f){f.classList.add('grown');});
         io.unobserve(e.target);
       }
     });
