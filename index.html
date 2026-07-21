@@ -24,9 +24,9 @@
   --wa-teal:#008069;
   --wa-bg:#EFE7DD;
   --wa-out:#D9FDD3;
-  --shadow-sm:0 1px 2px rgba(0,0,0,0.08),0 4px 12px rgba(0,0,0,0.05);
-  --shadow-md:0 6px 16px rgba(0,0,0,0.12);
-  --shadow-lg:0 8px 28px rgba(0,0,0,0.16);
+  --shadow-sm:0 1px 2px rgba(215,4,102,0.05),0 4px 12px rgba(34,34,34,0.05);
+  --shadow-md:0 10px 22px rgba(215,4,102,0.09),0 3px 8px rgba(34,34,34,0.07);
+  --shadow-lg:0 16px 36px rgba(215,4,102,0.13),0 4px 12px rgba(34,34,34,0.09);
   --r-card:16px;
   --r-sm:12px;
 }
@@ -70,12 +70,29 @@ h2{font-size:clamp(28px,3.6vw,40px);font-weight:800;line-height:1.12;letter-spac
 .btn-ghost:hover{background:var(--bg-alt);}
 
 /* ── Reveal on scroll ── */
-.rv{opacity:0;transform:translateY(26px);transition:opacity .7s cubic-bezier(.22,1,.36,1),transform .7s cubic-bezier(.22,1,.36,1);}
+.rv{opacity:0;transform:translateY(26px) scale(.97);transition:opacity .75s cubic-bezier(.22,1,.36,1),transform .75s cubic-bezier(.22,1,.36,1);}
 .rv.in{opacity:1;transform:none;}
 .rv-d1{transition-delay:.1s;}
 .rv-d2{transition-delay:.2s;}
 .rv-d3{transition-delay:.3s;}
 .rv-d4{transition-delay:.4s;}
+
+/* ── Grain texture (subtle, whole page) ── */
+.grain{
+  position:fixed;inset:0;z-index:9999;pointer-events:none;opacity:.035;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  mix-blend-mode:overlay;
+}
+
+/* ── Spotlight border: cursor-tracked glow on hover ── */
+.spotlight{position:relative;overflow:hidden;}
+.spotlight::after{
+  content:'';position:absolute;inset:0;pointer-events:none;z-index:1;
+  background:radial-gradient(280px circle at var(--mx,50%) var(--my,50%),rgba(255,56,92,.11),transparent 68%);
+  opacity:0;transition:opacity .4s ease;
+}
+.spotlight:hover::after{opacity:1;}
+.spotlight:active{transform:scale(.985) !important;}
 
 /* ══════════ HEADER ══════════ */
 header{
@@ -253,6 +270,9 @@ header.scrolled{box-shadow:0 2px 12px rgba(0,0,0,0.06);}
 
 /* ══════════ CARDS ══════════ */
 .grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:44px;}
+.grid-3>*:nth-child(2){margin-top:-18px;}
+.grid-3>*:nth-child(3){margin-top:14px;}
+@media (max-width:960px){.grid-3>*{margin-top:0 !important;}}
 .card{
   background:#fff;border:1px solid var(--line);border-radius:var(--r-card);
   padding:28px 26px;transition:transform .25s ease,box-shadow .25s ease;
@@ -725,6 +745,7 @@ footer{border-top:1px solid var(--line);padding:34px 0 110px;background:var(--bg
 </style>
 </head>
 <body>
+<div class="grain" aria-hidden="true"></div>
 
 <!-- ══════════ HEADER ══════════ -->
 <header id="hdr">
@@ -834,7 +855,7 @@ footer{border-top:1px solid var(--line);padding:34px 0 110px;background:var(--bg
     <h2 class="rv">Built for real estate agencies.</h2>
     <p class="lede rv rv-d1">If you run a brokerage with a database of past leads and enquiries sitting cold, this turns it back into deals, automatically, every week.</p>
     <div class="who-grid">
-      <div class="who-card rv">
+      <div class="who-card spotlight rv">
         <div class="who-ic">🏢</div>
         <div>
           <h3>Real estate agencies</h3>
@@ -852,17 +873,17 @@ footer{border-top:1px solid var(--line);padding:34px 0 110px;background:var(--bg
     <h2 class="rv">Manual follow-up doesn't scale.</h2>
     <p class="lede rv rv-d1">Hundreds of contacts are sitting cold in your database right now. Most haven't heard from you in months, not because they lost interest, but because nobody followed up.</p>
     <div class="grid-3">
-      <div class="card rv">
+      <div class="card spotlight rv">
         <div class="card-icon" style="background:rgba(255,56,92,.08);">⏱</div>
         <h3>One week of work per campaign</h3>
         <p>Reaching 1,000+ contacts by hand is simply impossible for one team, which is why it rarely happens at all.</p>
       </div>
-      <div class="card rv rv-d1">
+      <div class="card spotlight rv rv-d1">
         <div class="card-icon" style="background:rgba(255,159,10,.1);">📋</div>
         <h3>Generic blasts get ignored</h3>
         <p>Copy-pasted outreach reads like spam. Contacts who were genuinely interested go cold for good.</p>
       </div>
-      <div class="card rv rv-d2">
+      <div class="card spotlight rv rv-d2">
         <div class="card-icon" style="background:rgba(139,92,246,.1);">🔕</div>
         <h3>Warm replies slip through</h3>
         <p>When a contact finally responds, nobody notices for hours. By then, the moment is gone.</p>
@@ -878,25 +899,25 @@ footer{border-top:1px solid var(--line);padding:34px 0 110px;background:var(--bg
     <h2 class="rv">Four steps. Fully automatic.</h2>
     <p class="lede rv rv-d1">AI writes the message. WhatsApp sends it. You close the deal. The whole system runs every Monday morning, before your team has their first coffee.</p>
     <div class="steps">
-      <div class="step rv">
+      <div class="step spotlight rv">
         <div class="step-ic">🗂️</div>
         <div class="step-num">1</div>
         <h3>Database scanned</h3>
         <p>Your contacts stay in your own account. Every contact marked cold gets picked up automatically.</p>
       </div>
-      <div class="step rv rv-d1">
+      <div class="step spotlight rv rv-d1">
         <div class="step-ic" style="background:rgba(255,159,10,.12);">✍️</div>
         <div class="step-num">2</div>
         <h3>AI writes each message</h3>
         <p>A unique WhatsApp message per contact — based on their property interest, budget and buyer type — in under 2 seconds.</p>
       </div>
-      <div class="step rv rv-d2">
+      <div class="step spotlight rv rv-d2">
         <div class="step-ic" style="background:rgba(0,138,5,.1);">📲</div>
         <div class="step-num">3</div>
         <h3>WhatsApp sends it</h3>
         <p>Messages go out from your own agency number via the official WhatsApp Business API. Fully compliant.</p>
       </div>
-      <div class="step rv rv-d3">
+      <div class="step spotlight rv rv-d3">
         <div class="step-ic" style="background:rgba(139,92,246,.12);">🤝</div>
         <div class="step-num">4</div>
         <h3>Agent takes over</h3>
@@ -927,7 +948,7 @@ footer{border-top:1px solid var(--line);padding:34px 0 110px;background:var(--bg
     <span class="kicker rv">Real examples</span>
     <h2 class="rv">Two investors. One Monday morning.<br>Zero agent effort.</h2>
     <div class="conv-grid">
-      <div class="conv-card rv">
+      <div class="conv-card spotlight rv">
         <div class="conv-hdr">
           <div class="av-wrap">
             <div class="conv-av" style="background:linear-gradient(135deg,#FF9F0A,#FF6B35);">K</div>
@@ -948,7 +969,7 @@ footer{border-top:1px solid var(--line);padding:34px 0 110px;background:var(--bg
         </div>
       </div>
 
-      <div class="conv-card rv rv-d1">
+      <div class="conv-card spotlight rv rv-d1">
         <div class="conv-hdr">
           <div class="av-wrap">
             <div class="conv-av" style="background:linear-gradient(135deg,#00C9B8,#10B981);">A</div>
@@ -980,7 +1001,7 @@ footer{border-top:1px solid var(--line);padding:34px 0 110px;background:var(--bg
     <p class="lede rv rv-d1">When someone asks to be left alone, the system respects it instantly: their status flips to <strong>Not interested</strong> and they're never messaged again. Your list stays clean and compliant, automatically.</p>
 
     <div class="optout-grid">
-      <div class="conv-card rv">
+      <div class="conv-card spotlight rv">
         <div class="conv-hdr">
           <div class="av-wrap">
             <div class="conv-av" style="background:linear-gradient(135deg,#8B5CF6,#6D5CF6);">O</div>
@@ -1121,7 +1142,7 @@ footer{border-top:1px solid var(--line);padding:34px 0 110px;background:var(--bg
     <p class="lede rv rv-d1">One-time setup of AED 4,000, then a flat monthly fee. No long-term contracts. Switch off at any time.</p>
 
     <div class="price-grid price-grid-2" style="margin-top:44px;">
-      <div class="price-card rv">
+      <div class="price-card spotlight rv">
         <div class="price-name">Starter</div>
         <div class="price-amt"><small>AED</small> 1,999</div>
         <div class="price-period">per month</div>
@@ -1136,7 +1157,7 @@ footer{border-top:1px solid var(--line);padding:34px 0 110px;background:var(--bg
         <a class="btn btn-ghost price-cta" href="#contact">Get started</a>
       </div>
 
-      <div class="price-card hot rv rv-d1">
+      <div class="price-card hot spotlight rv rv-d1">
         <div class="price-badge">Most popular</div>
         <div class="price-name">Growth</div>
         <div class="price-amt"><small>AED</small> 2,999</div>
@@ -1189,6 +1210,38 @@ footer{border-top:1px solid var(--line);padding:34px 0 110px;background:var(--bg
 </div>
 
 <script>
+/* ── Spotlight: cursor-tracked glow on cards ── */
+(function(){
+  if(window.matchMedia('(prefers-reduced-motion:reduce)').matches)return;
+  if(!window.matchMedia('(hover:hover)').matches)return;
+  document.addEventListener('pointermove',function(e){
+    var el=e.target.closest('.spotlight');
+    if(!el)return;
+    var r=el.getBoundingClientRect();
+    el.style.setProperty('--mx',(e.clientX-r.left)+'px');
+    el.style.setProperty('--my',(e.clientY-r.top)+'px');
+  },{passive:true});
+})();
+
+/* ── Hero parallax on scroll ── */
+(function(){
+  if(window.matchMedia('(prefers-reduced-motion:reduce)').matches)return;
+  var blob=document.querySelector('.hero-blob');
+  var phone=document.querySelector('.phone');
+  if(!blob||!phone)return;
+  var ticking=false;
+  window.addEventListener('scroll',function(){
+    if(ticking)return;
+    ticking=true;
+    requestAnimationFrame(function(){
+      var y=window.scrollY;
+      blob.style.transform='translateY('+(y*0.12)+'px)';
+      phone.style.marginTop=Math.max(-40,-y*0.06)+'px';
+      ticking=false;
+    });
+  },{passive:true});
+})();
+
 /* ── Header shadow on scroll ── */
 (function(){
   var hdr=document.getElementById('hdr');
